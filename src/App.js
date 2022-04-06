@@ -1,8 +1,9 @@
 import { Component } from "react";
+import CardList from "./components/card-list/card-list.component";
+import SearchBox from "./components/search-box/search-box.component";
 import "./App.css";
 
 //"https://jsonplaceholder.typicode.com/users"
-
 
 class App extends Component {
   constructor() {
@@ -11,7 +12,7 @@ class App extends Component {
     //setting searchField (captures the user's input) as a state so we can access anywhere in the component
     this.state = {
       monsters: [],
-      searchField: '',
+      searchField: "",
     };
   }
 
@@ -21,7 +22,7 @@ class App extends Component {
     this.setState(() => {
       return { searchField };
     });
-  }
+  };
 
   //we're using this method so that it fires as soon as React renders the page for the first time
   componentDidMount() {
@@ -37,23 +38,18 @@ class App extends Component {
     const { monsters, searchField } = this.state;
     const { onSearchChange } = this;
 
-
     const filteredMonsters = monsters.filter((monster) => {
-      return monster.name.toLowerCase().includes(searchField)
-    })
+      return monster.name.toLowerCase().includes(searchField);
+    });
 
     return (
       <div className='App'>
-        <input
-          className="search-box"
-          type="search"
-          placeholder="Find Monsters"
-          onChange={onSearchChange}
+        <SearchBox
+          onChangeHandler={onSearchChange}
+          placeholder={"Search Monsters"}
+          className={"search-box"}
         />
-
-        {filteredMonsters.map((monster) => {
-          return <h1 key={monster.id}>{monster.name}</h1>;
-        })}
+        <CardList monsters={filteredMonsters} />
       </div>
     );
   }
